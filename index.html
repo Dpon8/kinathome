@@ -13,14 +13,12 @@
     ol, ul { list-style: none; }
     a { text-decoration: none; color: inherit; }
 
-    /* ── Paleta KinAtHome (Dark + Lima / Volt) ─────── */
+    /* ── Paleta KinAtHome ─────────────────────────── */
     :root {
       --bg-base:        #0c0d0e;
       --bg-surface:     #17191c;
       --bg-elevated:    #22262b;
-      --bg-input:       #17191c;
       --border:         #2a2f35;
-      --border-hover:   #bbf426;
       --accent:         #bbf426;
       --accent-muted:   rgba(187, 244, 38, 0.12);
       --text-primary:   #f8fafc;
@@ -94,7 +92,6 @@
       letter-spacing: -0.03em;
       color: #ffffff;
     }
-
     .sidebar-logo span { color: var(--accent); }
 
     .sidebar-tagline {
@@ -134,7 +131,6 @@
       outline: none;
       transition: all 0.15s ease;
     }
-
     .search-box::placeholder { color: var(--text-tertiary); }
     .search-box:focus {
       border-color: var(--accent);
@@ -151,7 +147,6 @@
       display: none;
       padding: 2px 4px;
     }
-
     .search-clear:hover { color: #ffffff; }
     .search-clear.visible { display: block; }
 
@@ -180,7 +175,6 @@
       transition: all 0.15s ease;
       white-space: nowrap;
     }
-
     .chip:hover { border-color: var(--accent); color: #ffffff; }
     .chip.active {
       background: var(--accent);
@@ -189,7 +183,7 @@
       font-weight: 700;
     }
 
-    /* ── Contenido Principal ────────────────────────── */
+    /* ── Contenido ──────────────────────────────────── */
     .main-content {
       overflow-y: auto;
       height: 100%;
@@ -231,7 +225,6 @@
       font-size: 11px;
       font-weight: 600;
     }
-
     .active-badge-remove { font-size: 13px; cursor: pointer; }
     .clear-all {
       font-size: 12px;
@@ -258,7 +251,6 @@
       flex-direction: column;
       transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     }
-
     .exercise-card:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
@@ -271,7 +263,6 @@
       overflow: hidden;
       position: relative;
     }
-
     .card-thumb, .card-gif {
       position: absolute;
       inset: 0;
@@ -280,7 +271,6 @@
       object-fit: cover;
       transition: opacity 0.2s ease;
     }
-
     .card-gif { opacity: 0; }
     .exercise-card:hover .card-thumb { opacity: 0; }
     .exercise-card:hover .card-gif { opacity: 1; }
@@ -309,11 +299,10 @@
       border-radius: 4px;
       letter-spacing: 0.02em;
     }
-
     .tag-cat   { background: var(--accent-muted); color: var(--accent); }
     .tag-equip { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border); }
 
-    /* ── Banner WhatsApp ────────────────────────────── */
+    /* ── Banner Fijo WhatsApp ───────────────────────── */
     .whatsapp-bottom-banner {
       position: fixed;
       bottom: 0;
@@ -358,7 +347,6 @@
       transition: all 0.15s ease;
       cursor: pointer;
     }
-
     .wa-btn-primary { background: var(--accent); color: #0c0d0e; }
     .wa-btn-primary:hover {
       transform: translateY(-2px);
@@ -371,14 +359,13 @@
       color: #ffffff;
       border: 1px solid var(--border);
     }
-
     .wa-btn-secondary:hover {
       border-color: var(--accent);
       color: var(--accent);
       transform: translateY(-2px);
     }
 
-    /* ── Modal Detalle ──────────────────────────────── */
+    /* ── Modal ──────────────────────────────────────── */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -393,7 +380,6 @@
       transition: opacity 0.2s ease;
       padding: 16px;
     }
-
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal-panel {
       background: var(--bg-surface);
@@ -408,7 +394,6 @@
       flex-direction: column;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     }
-
     .modal-overlay.open .modal-panel { transform: translateY(0) scale(1); }
     .modal-header {
       display: flex;
@@ -416,7 +401,6 @@
       justify-content: space-between;
       padding: 20px 22px 0;
     }
-
     .modal-title { font-size: 19px; font-weight: 800; color: #ffffff; text-transform: capitalize; }
     .modal-close {
       width: 32px;
@@ -430,7 +414,6 @@
       justify-content: center;
       transition: all 0.15s;
     }
-
     .modal-close:hover { background: var(--accent); color: #0c0d0e; }
     .modal-media { padding: 16px 22px 0; }
     .modal-gif {
@@ -441,7 +424,6 @@
       background: #000000;
       border: 1px solid var(--border);
     }
-
     .modal-meta { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 22px 0; }
     .meta-chip {
       padding: 7px 14px;
@@ -450,7 +432,6 @@
       border-radius: var(--radius-md);
       font-size: 12px;
     }
-
     .meta-chip-label {
       color: var(--accent);
       font-weight: 800;
@@ -460,7 +441,6 @@
       margin-bottom: 2px;
       letter-spacing: 0.05em;
     }
-
     .meta-chip-value { font-weight: 700; color: #ffffff; }
     .modal-instructions { padding: 20px 22px 28px; }
     .modal-instructions-title {
@@ -471,7 +451,6 @@
       color: var(--accent);
       margin-bottom: 12px;
     }
-
     .instructions-list { display: flex; flex-direction: column; gap: 12px; counter-reset: pasos; }
     .instruction-step { display: flex; gap: 12px; align-items: flex-start; counter-increment: pasos; }
     .step-num {
@@ -488,7 +467,6 @@
       flex-shrink: 0;
       margin-top: 1px;
     }
-
     .step-text { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
 
     @media (max-width: 820px) {
@@ -561,7 +539,7 @@
   </main>
 </div>
 
-<!-- Banner Fijo de WhatsApp -->
+<!-- Banner Fijo WhatsApp -->
 <footer class="whatsapp-bottom-banner">
   <div class="banner-info">
     <div class="banner-icon-badge">
@@ -602,7 +580,7 @@
   </div>
 </footer>
 
-<!-- Modal Detalle -->
+<!-- Modal -->
 <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal-panel" id="modal-panel">
     <div class="modal-header">
@@ -621,9 +599,8 @@
 </div>
 
 <script>
-  // ── Diccionario Exhaustivo de Traducción al Español ──
+  // ── Diccionario de Categorías y Músculos ──
   const TRADUCCIONES = {
-    // Categorías y Regiones
     'waist': 'Zona Media / Core',
     'upper legs': 'Muslos / Pierna Superior',
     'lower legs': 'Pantorrillas',
@@ -634,8 +611,6 @@
     'shoulders': 'Hombros',
     'cardio': 'Cardiovascular',
     'neck': 'Cuello',
-
-    // Equipamiento
     'body weight': 'Peso Corporal',
     'cable': 'Polea',
     'assisted': 'Asistido',
@@ -650,7 +625,7 @@
     'elliptical machine': 'Máquina Elíptica',
     'ez barbell': 'Barra Z',
     'hammer': 'Máquina Hammer',
-    'roller': 'Rodillo de Espuma / Foam Roller',
+    'roller': 'Rodillo / Foam Roller',
     'rope': 'Cuerda / Soga',
     'skierg machine': 'Máquina SkiErg',
     'sled machine': 'Trineo de Empuje',
@@ -658,12 +633,10 @@
     'stationary bike': 'Bicicleta Estática',
     'stepmill machine': 'Escaladora',
     'tire': 'Neumático',
-    'trap bar': 'Barra Hexagonal / Trap Bar',
+    'trap bar': 'Barra Hexagonal',
     'upper body ergometer': 'Ergómetro de Brazos',
     'weighted': 'Con Peso Adicional',
     'wheel roller': 'Rueda Abdominal',
-
-    // Músculos
     'abs': 'Abdomen',
     'quads': 'Cuádriceps',
     'lats': 'Dorsal Ancho',
@@ -685,68 +658,148 @@
     'cardiovascular system': 'Sistema Cardiovascular'
   };
 
-  // ── Traductor Dinámico de Títulos de Ejercicios ──
-  const GLOSARIO_TITULOS = [
-    [/3\/4 sit-up/gi, 'Abdominal 3/4'],
-    [/45° side bend/gi, 'Inflexión Lateral a 45°'],
-    [/air bike/gi, 'Bicicleta en el Aire (Abdominal)'],
-    [/all fours squad stretch/gi, 'Estiramiento en Cuadrupedia'],
-    [/bench press/gi, 'Press de Banca'],
-    [/incline bench press/gi, 'Press Inclinado'],
-    [/decline bench press/gi, 'Press Declinado'],
-    [/biceps curl/gi, 'Curl de Bíceps'],
-    [/triceps extension/gi, 'Extensión de Tríceps'],
-    [/overhead press/gi, 'Press Militar / Sobre la Cabeza'],
-    [/shoulder press/gi, 'Press de Hombros'],
-    [/lateral raise/gi, 'Elevaciones Laterales'],
-    [/front raise/gi, 'Elevaciones Frontales'],
-    [/rear delt/gi, 'Deltoides Posterior'],
-    [/push-up/gi, 'Flexiones de Brazos (Push-Up)'],
-    [/pull-up/gi, 'Dominadas (Pull-Up)'],
-    [/chin-up/gi, 'Dominadas Supinas (Chin-Up)'],
-    [/lat pulldown/gi, 'Jalón al Pecho'],
-    [/seated row/gi, 'Remo Sentado'],
-    [/bent over row/gi, 'Remo Inclinado'],
-    [/deadlift/gi, 'Peso Muerto'],
-    [/romanian deadlift/gi, 'Peso Muerto Rumano'],
-    [/squat/gi, 'Sentadilla'],
-    [/front squat/gi, 'Sentadilla Frontal'],
-    [/lunges|lunge/gi, 'Estocadas'],
-    [/leg press/gi, 'Prensa de Piernas'],
-    [/leg extension/gi, 'Extensión de Cuádriceps'],
-    [/leg curl/gi, 'Curl Femoral / Isquiotibiales'],
-    [/calf raise/gi, 'Elevación de Talones'],
-    [/hip thrust/gi, 'Hip Thrust / Empuje de Cadera'],
-    [/glute bridge/gi, 'Puente de Glúteos'],
-    [/plank/gi, 'Plancha Abdominal'],
-    [/side plank/gi, 'Plancha Lateral'],
-    [/crunch/gi, 'Crunch Abdominal'],
-    [/dips/gi, 'Fondos en Paralelas'],
-    [/stretching|stretch/gi, 'Estiramiento'],
-    [/hanging leg raise/gi, 'Elevación de Piernas Colgado'],
-    [/russian twist/gi, 'Giros Rusos'],
-    [/face pull/gi, 'Face Pull (Jalón a la Cara)'],
-    [/shrug/gi, 'Encogimiento de Hombros'],
-    [/dumbbell/gi, 'con Mancuerna'],
-    [/barbell/gi, 'con Barra'],
-    [/cable/gi, 'en Polea'],
-    [/kettlebell/gi, 'con Pesa Rusa'],
-    [/band/gi, 'con Banda']
+  // ── Diccionario de Frases Específicas ──
+  const FRASES_ESPECIFICAS = {
+    'alternate heel touchers': 'Toques de Talón Alternados',
+    'alternate lateral pulldown': 'Jalón Dorsal Lateral Alternado',
+    'ankle circles': 'Círculos de Tobillo',
+    'archer pull up': 'Dominada Estilo Arquero',
+    'archer push up': 'Flexión Estilo Arquero',
+    'air bike': 'Bicicleta en el Aire (Abdominal)',
+    'all fours squad stretch': 'Estiramiento Cuadrupedia',
+    '3/4 sit-up': 'Abdominal 3/4',
+    '45° side bend': 'Inflexión Lateral a 45°',
+    'russian twist': 'Giros Rusos',
+    'good morning': 'Buenos Días (Good Morning)',
+    'windmills': 'Molinos (Windmills)',
+    'jumping jack': 'Saltos de Tijera (Jumping Jacks)',
+    'burpee': 'Burpees',
+    'mountain climber': 'Escaladores (Mountain Climbers)',
+    'butt kicks': 'Talones al Glúteo',
+    'high knees': 'Elevación de Rodillas al Pecho'
+  };
+
+  // ── Matriz Exhaustiva de Reglas de Traducción Sintáctica ──
+  const REGLAS_PATRONES = [
+    // Movimientos principales
+    [/\bbench press\b/gi, 'press de banca'],
+    [/\boverhead press\b/gi, 'press militar'],
+    [/\bshoulder press\b/gi, 'press de hombros'],
+    [/\bchest press\b/gi, 'press de pecho'],
+    [/\bleg press\b/gi, 'prensa de piernas'],
+    [/\bpush[- ]?ups?\b/gi, 'flexión de brazos'],
+    [/\bpull[- ]?ups?\b/gi, 'dominada prona'],
+    [/\bchin[- ]?ups?\b/gi, 'dominada supina'],
+    [/\blat pulldown\b/gi, 'jalón dorsal'],
+    [/\bpulldown\b/gi, 'jalón al pecho'],
+    [/\bdeadlifts?\b/gi, 'peso muerto'],
+    [/\bsquats?\b/gi, 'sentadilla'],
+    [/\blunges?\b/gi, 'estocada'],
+    [/\bstep[- ]?ups?\b/gi, 'subida al cajón'],
+    [/\bbiceps? curls?\b/gi, 'curl de bíceps'],
+    [/\btriceps? extensions?\b/gi, 'extensión de tríceps'],
+    [/\btriceps? dips?\b/gi, 'fondos de tríceps'],
+    [/\bdips?\b/gi, 'fondos'],
+    [/\bcalf raises?\b/gi, 'elevación de talones'],
+    [/\bleg raises?\b/gi, 'elevación de piernas'],
+    [/\blateral raises?\b/gi, 'elevaciones laterales'],
+    [/\bfront raises?\b/gi, 'elevaciones frontales'],
+    [/\brear delt\b/gi, 'deltoides posterior'],
+    [/\bhip thrusts?\b/gi, 'empuje de cadera (hip thrust)'],
+    [/\bglute bridges?\b/gi, 'puente de glúteos'],
+    [/\bkickbacks?\b/gi, 'patadas traseras'],
+    [/\bside bends?\b/gi, 'flexiones laterales'],
+    [/\bcrunches?\b/gi, 'abdominales cortos'],
+    [/\bsit[- ]?ups?\b/gi, 'abdominales sit-up'],
+    [/\bplanks?\b/gi, 'plancha'],
+    [/\bflyes?|flies\b/gi, 'aperturas'],
+    [/\bshrugs?\b/gi, 'encogimiento de hombros'],
+    [/\brows?\b/gi, 'remo'],
+    [/\bstretch(es|ing)?\b/gi, 'estiramiento'],
+    [/\bjumps?\b/gi, 'saltos'],
+    [/\bhops?\b/gi, 'saltos cortos'],
+    [/\btwists?\b/gi, 'rotaciones'],
+    [/\bcircles?\b/gi, 'círculos'],
+    [/\brotations?\b/gi, 'rotaciones'],
+    [/\bheel touchers?\b/gi, 'toques de talón'],
+    [/\bface pulls?\b/gi, 'jalones a la cara (face pull)'],
+    [/\bswings?\b/gi, 'balanceos (swings)'],
+    [/\bsnatch\b/gi, 'arrancada (snatch)'],
+    [/\bclean and press\b/gi, 'cargada y press'],
+    [/\bclean\b/gi, 'cargada (clean)'],
+
+    // Articulaciones y segmentos corporales
+    [/\bankle\b/gi, 'de tobillo'],
+    [/\bwrist\b/gi, 'de muñeca'],
+    [/\bshoulder\b/gi, 'de hombro'],
+    [/\bneck\b/gi, 'de cuello'],
+    [/\bhip\b/gi, 'de cadera'],
+    [/\bknee\b/gi, 'de rodilla'],
+    [/\bchest\b/gi, 'de pecho'],
+    [/\bback\b/gi, 'de espalda'],
+    [/\barm\b/gi, 'de brazo'],
+    [/\bleg\b/gi, 'de pierna'],
+    [/\bhamstring\b/gi, 'isquiotibial'],
+    [/\bquadriceps|quad\b/gi, 'cuádriceps'],
+
+    // Variaciones, lados y posturas
+    [/\balternat(e|ing)\b/gi, 'alternado'],
+    [/\barcher\b/gi, 'estilo arquero'],
+    [/\baround the world\b/gi, 'alrededor del mundo'],
+    [/\ball fours\b/gi, 'en cuadrupedia'],
+    [/\bseated\b/gi, 'sentado'],
+    [/\bstanding\b/gi, 'de pie'],
+    [/\blying\b/gi, 'acostado'],
+    [/\bsupine\b/gi, 'boca arriba'],
+    [/\bprone\b/gi, 'boca abajo'],
+    [/\bincline(d)?\b/gi, 'inclinado'],
+    [/\bdecline(d)?\b/gi, 'declinado'],
+    [/\bhanging\b/gi, 'suspendido / colgado'],
+    [/\bkneeling\b/gi, 'de rodillas'],
+    [/\bsingle leg|one leg\b/gi, 'a una pierna'],
+    [/\bsingle arm|one arm\b/gi, 'a un brazo'],
+    [/\bbent[- ]?over\b/gi, 'con tronco inclinado'],
+    [/\bbehind (the )?neck\b/gi, 'tras nuca'],
+    [/\bclose[- ]?grip\b/gi, 'agarre cerrado'],
+    [/\bwide[- ]?grip\b/gi, 'agarre ancho'],
+    [/\breverse[- ]?grip\b/gi, 'agarre invertido'],
+    [/\bunderhand\b/gi, 'agarre supino'],
+    [/\boverhand\b/gi, 'agarre prono'],
+    [/\bneutral[- ]?grip\b/gi, 'agarre neutro'],
+    [/\blateral\b/gi, 'lateral'],
+
+    // Equipamiento en títulos
+    [/\bdumbbells?\b/gi, 'con mancuerna'],
+    [/\bbarbells?\b/gi, 'con barra'],
+    [/\bcables?\b/gi, 'en polea'],
+    [/\bkettlebells?\b/gi, 'con pesa rusa'],
+    [/\bbands?\b/gi, 'con banda'],
+    [/\bbodyweight\b/gi, 'con peso corporal'],
+    [/\bmachines?\b/gi, 'en máquina'],
+    [/\bsmith\b/gi, 'en Smith'],
+    [/\bstability balls?\b/gi, 'en fitball'],
+    [/\bmedicine balls?\b/gi, 'con balón medicinal']
   ];
 
   function traducirTitulo(nombre) {
     if (!nombre) return '';
-    let traducido = nombre;
-    for (const [en, es] of GLOSARIO_TITULOS) {
-      traducido = traducido.replace(en, es);
+    const key = nombre.toLowerCase().trim();
+    if (FRASES_ESPECIFICAS[key]) {
+      return FRASES_ESPECIFICAS[key];
     }
-    return traducido;
+
+    let t = key;
+    for (const [patron, reemplazo] of REGLAS_PATRONES) {
+      t = t.replace(patron, reemplazo);
+    }
+    t = t.replace(/\s+/g, ' ').trim();
+    return t.charAt(0).toUpperCase() + t.slice(1);
   }
 
   function t(termino) {
     if (!termino) return '';
-    const key = termino.toLowerCase().trim();
-    return TRADUCCIONES[key] || termino;
+    const k = termino.toLowerCase().trim();
+    return TRADUCCIONES[k] || termino;
   }
 
   // ── Estado ──
@@ -762,17 +815,13 @@
       const res = await fetch('data/exercises.json');
       allExercises = await res.json();
     } catch (e) {
-      if (typeof EXERCISES !== 'undefined') {
-        allExercises = EXERCISES;
-      }
+      if (typeof EXERCISES !== 'undefined') allExercises = EXERCISES;
     }
-
     setupFilters();
     applyFilters();
     setupEventListeners();
   }
 
-  // ── Filtros ──
   function setupFilters() {
     const categories = [...new Set(allExercises.map(e => e.category).filter(Boolean))].sort();
     const equipments = [...new Set(allExercises.map(e => e.equipment).filter(Boolean))].sort();
@@ -792,7 +841,6 @@
     `).join('');
   }
 
-  // ── Filtrar ──
   function applyFilters() {
     const filtered = allExercises.filter(e => {
       const matchCat = !selectedCategory || e.category === selectedCategory;
@@ -813,7 +861,6 @@
     updateResultsBar(filtered.length);
   }
 
-  // ── Grilla ──
   function renderGrid(exercises) {
     const grid = document.getElementById('exercise-grid');
     if (!exercises.length) {
@@ -880,7 +927,6 @@
     });
   }
 
-  // ── Modal ──
   function openExerciseModal(id) {
     const exercise = allExercises.find(e => e.id === id);
     if (!exercise) return;
@@ -903,7 +949,6 @@
       </div>
     `;
 
-    // Priorizar pasos en español
     const steps = exercise.instruction_steps?.es || 
                   (exercise.instructions?.es ? [exercise.instructions.es] : null) ||
                   exercise.instruction_steps?.en || [];
@@ -924,7 +969,6 @@
     document.getElementById('modal-gif').src = '';
   }
 
-  // ── Event Listeners ──
   function setupEventListeners() {
     document.querySelectorAll('.filter-options').forEach(group => {
       group.addEventListener('click', e => {
