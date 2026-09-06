@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KinAtHome | Biblioteca de Ejercicios</title>
+  <style>
+    /* ── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    img { display: block; max-width: 100%; }
+    input { font: inherit; }
+    ol, ul { list-style: none; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Paleta KinAtHome (Dark + Lima / Volt) ─────── */
+    :root {
+      --bg-base:        #0c0d0e; /* Negro fondo KinAtHome */
+      --bg-surface:     #17191c; /* Gris superficie tarjetas */
+      --bg-elevated:    #22262b; /* Gris oscuro elevado */
+      --bg-input:       #17191c;
+      --border:         #2a2f35;
+      --border-hover:   #bbf426;
+      --accent:         #bbf426; /* Verde lima KinAtHome */
+      --accent-muted:   rgba(187, 244, 38, 0.12);
+      --text-primary:   #f8fafc; /* Blanco principal */
+      --text-secondary: #94a3b8; /* Gris claro secundario */
+      --text-tertiary:  #64748b;
+      --radius-sm:      6px;
+      --radius-md:      10px;
+      --radius-lg:      14px;
+      --radius-xl:      20px;
+      --sidebar-w:      275px;
+      --banner-h:       72px;
+    }
+
+    /* ── Base ───────────────────────────────────────── */
+    html, body { height: 100%; }
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Scrollbar ──────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2a2f35; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ── App Shell ──────────────────────────────────── */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      height: calc(100vh - var(--banner-h));
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ────────────────────────────────────── */
+    .sidebar {
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 22px 20px 16px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg-surface);
+      z-index: 2;
+    }
+
+    .sidebar-brand-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #0c0d0e;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+    }
+
+    .sidebar-logo span {
+      color: var(--accent);
+    }
+
+    .sidebar-tagline {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .sidebar-body {
+      padding: 16px 14px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Buscador ───────────────────────────────────── */
+    .search-wrapper {
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
+      width: 15px;
+      height: 15px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 9px 32px 9px 34px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.15s ease;
+    }
+
+    .search-box::placeholder { color: var(--text-tertiary); }
+    .search-box:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-muted);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 16px;
+      display: none;
+      padding: 2px 4px;
+    }
+
+    .search-clear:hover { color: #ffffff; }
+    .search-clear.visible { display: block; }
+
+    /* ── Filtros ────────────────────────────────────── */
+    .filter-section {
+      border-radius: var(--radius-md);
+    }
+
+    .filter-summary {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      padding-left: 2px;
+    }
+
+    .filter-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    /* ── Chips ──────────────────────────────────────── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0c0d0e;
+      font-weight: 700;
+    }
+
+    /* ── Contenido Principal ────────────────────────── */
+    .main-content {
+      overflow-y: auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Barra de Resultados ────────────────────────── */
+    .results-bar {
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      background: rgba(12, 13, 14, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 2;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .results-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-right: auto;
+    }
+
+    .active-filters {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px 3px 10px;
+      background: var(--accent-muted);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .active-badge-remove {
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .clear-all {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* ── Grilla ─────────────────────────────────────── */
+    .grid-wrapper {
+      padding: 24px 28px 48px;
+      flex: 1;
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    /* ── Tarjetas de Ejercicio ──────────────────────── */
+    .exercise-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 28px -6px rgba(187, 244, 38, 0.18);
+    }
+
+    .card-media {
+      aspect-ratio: 1;
+      background: #000000;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-thumb,
+    .card-gif {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.2s ease;
+    }
+
+    .card-gif { opacity: 0; }
+    .exercise-card:hover .card-thumb { opacity: 0; }
+    .exercise-card:hover .card-gif { opacity: 1; }
+
+    .card-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .card-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #ffffff;
+      text-transform: capitalize;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: auto;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .tag-cat   { background: var(--accent-muted); color: var(--accent); }
+    .tag-equip { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border); }
+
+    /* ── Banner Fijo Inferior WhatsApp ──────────────── */
+    .whatsapp-bottom-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--banner-h);
+      background: #121417;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 50;
+      box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .banner-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner-icon-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .banner-text-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .banner-text-sub {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+    }
+
+    .banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .wa-btn-primary {
+      background: var(--accent);
+      color: #0c0d0e;
+    }
+
+    .wa-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(187, 244, 38, 0.35);
+      background: #c8fa37;
+    }
+
+    .wa-btn-secondary {
+      background: var(--bg-elevated);
+      color: #ffffff;
+      border: 1px solid var(--border);
+    }
+
+    .wa-btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ── Modal de Detalle ───────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      padding: 16px;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      width: min(650px, 100%);
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+      transform: translateY(12px) scale(0.98);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-overlay.open .modal-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px 0;
+    }
+
+    .modal-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: capitalize;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .modal-close:hover {
+      background: var(--accent);
+      color: #0c0d0e;
+    }
+
+    .modal-media {
+      padding: 16px 22px 0;
+    }
+
+    .modal-gif {
+      width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border-radius: var(--radius-lg);
+      background: #000000;
+      border: 1px solid var(--border);
+    }
+
+    .modal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 22px 0;
+    }
+
+    .meta-chip {
+      padding: 7px 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 12px;
+    }
+
+    .meta-chip-label {
+      color: var(--accent);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 9.5px;
+      display: block;
+      margin-bottom: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    .meta-chip-value {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .modal-instructions {
+      padding: 20px 22px 28px;
+    }
+
+    .modal-instructions-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .instructions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      counter-reset: pasos;
+    }
+
+    .instruction-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      counter-increment: pasos;
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #0c0d0e;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+
+    /* ── Responsive ─────────────────────────────────── */
+    @media (max-width: 820px) {
+      :root { --banner-h: 112px; }
+      .app-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      .sidebar { height: auto; max-height: 38vh; border-right: none; border-bottom: 1px solid var(--border); }
+      .filter-options { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+      .grid-wrapper { padding: 14px; }
+      .exercise-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+
+      .whatsapp-bottom-banner {
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 14px;
+        text-align: center;
+      }
+      .banner-info { display: none; }
+      .banner-actions { width: 100%; justify-content: center; }
+      .wa-btn { flex: 1; justify-content: center; font-size: 11.5px; padding: 8px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- Barra lateral -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-brand-badge">Kinesiología Integral</span>
+      <div class="sidebar-logo">Kin <span>At Home</span></div>
+      <div class="sidebar-tagline">Biblioteca de Ejercicios y Prescripción</div>
+    </div>
+    
+    <div class="sidebar-body">
+      <!-- Buscador -->
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="6.5" cy="6.5" r="4.5"/>
+          <path d="M10.5 10.5L14 14" stroke-linecap="round"/>
+        </svg>
+        <input type="search" class="search-box" id="search" placeholder="Buscar por nombre o músculo…" autocomplete="off" />
+        <button class="search-clear" id="search-clear" aria-label="Limpiar búsqueda">×</button>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filter-section">
+        <div class="filter-summary">Zona Corporal</div>
+        <div class="filter-options" id="category-chips"></div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-summary">Equipamiento</div>
+        <div class="filter-options" id="equipment-chips"></div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-summary">Músculo Objetivo</div>
+        <div class="filter-options" id="target-chips"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <div class="results-bar">
+      <span class="results-count" id="results-count">Cargando biblioteca…</span>
+      <div class="active-filters" id="active-filters"></div>
+      <span class="clear-all" id="clear-all" style="display: none;">Restablecer filtros</span>
+    </div>
+
+    <div class="grid-wrapper">
+      <div class="exercise-grid" id="exercise-grid"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Banner Fijo de WhatsApp Abajo -->
+<footer class="whatsapp-bottom-banner">
+  <div class="banner-info">
+    <div class="banner-icon-badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+      </svg>
+    </div>
+    <div>
+      <div class="banner-text-title">¿Dudas con tu pauta de ejercicios?</div>
+      <div class="banner-text-sub">Escríbenos directamente para asesoría o agendamiento kinésico</div>
+    </div>
+  </div>
+
+  <div class="banner-actions">
+    <!-- WhatsApp Principal -->
+    <a 
+      class="wa-btn wa-btn-primary" 
+      href="https://wa.me/56949472456?text=Hola%20KinAtHome,%20tengo%20una%20consulta%20sobre%20los%20ejercicios" 
+      target="_blank" 
+      rel="noopener noreferrer"
+    >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+      </svg>
+      <span>WhatsApp (+569 4947 2456)</span>
+    </a>
+
+    <!-- WhatsApp Secundario / Soporte -->
+    <a 
+      class="wa-btn wa-btn-secondary" 
+      href="https://wa.me/56930257516?text=Hola%20KinAtHome,%20necesito%20asistencia%20con%20la%20plataforma" 
+      target="_blank" 
+      rel="noopener noreferrer"
+    >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+      </svg>
+      <span>WhatsApp (+569 3025 7516)</span>
+    </a>
+  </div>
+</footer>
+
+<!-- Modal de detalle de ejercicio -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal-panel" id="modal-panel">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title"></h2>
+      <button class="modal-close" id="modal-close" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-media">
+      <img class="modal-gif" id="modal-gif" src="" alt="Ejecución técnica" />
+    </div>
+    <div class="modal-meta" id="modal-meta"></div>
+    <div class="modal-instructions">
+      <div class="modal-instructions-title">Guía de Ejecución Técnica</div>
+      <div class="instructions-list" id="instructions-container"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Diccionario de Traducción al Español ──
+  const TRADUCCIONES = {
+    // Categorías / Regiones
+    'waist': 'Zona Media / Core',
+    'upper legs': 'Muslos / Pierna Superior',
+    'lower legs': 'Pantorrillas',
+    'back': 'Espalda',
+    'chest': 'Pectorales',
+    'upper arms': 'Brazos',
+    'shoulders': 'Hombros',
+    'cardio': 'Cardiovascular',
+    'neck': 'Cuello',
+
+    // Equipamiento
+    'body weight': 'Peso Corporal',
+    'cable': 'Polea',
+    'assisted': 'Asistido',
+    'medicine ball': 'Balón Medicinal',
+    'leverage machine': 'Máquina de Palanca',
+    'dumbbell': 'Mancuernas',
+    'barbell': 'Barra',
+    'band': 'Banda Elástica',
+    'stability ball': 'Balón Suizo / Fitball',
+    'kettlebell': 'Kettlebell / Pesa Rusa',
+
+    // Músculos
+    'abs': 'Abdomen',
+    'quads': 'Cuádriceps',
+    'lats': 'Dorsal Ancho',
+    'calves': 'Pantorrillas / Gemelos',
+    'glutes': 'Glúteos',
+    'pectorals': 'Pectorales',
+    'triceps': 'Tríceps',
+    'biceps': 'Bíceps',
+    'hamstrings': 'Isquiotibiales',
+    'obliques': 'Oblicuos',
+    'delts': 'Deltoides',
+    'traps': 'Trapecio',
+    'spine': 'Espinales / Lumbar',
+    'forearms': 'Antebrazos',
+    'adductors': 'Aductores',
+    'abductors': 'Abductores'
+  };
+
+  function t(termino) {
+    if (!termino) return '';
+    const key = termino.toLowerCase().trim();
+    return TRADUCCIONES[key] || termino;
+  }
+
+  // ── Estado ──
+  let allExercises = [];
+  let selectedCategory = null;
+  let selectedEquipment = null;
+  let selectedTarget = null;
+  let searchTerm = '';
+
+  // ── Inicialización ──
+  async function init() {
+    try {
+      const res = await fetch('data/exercises.json');
+      allExercises = await res.json();
+    } catch (e) {
+      if (typeof EXERCISES !== 'undefined') {
+        allExercises = EXERCISES;
+      }
+    }
+
+    setupFilters();
+    applyFilters();
+    setupEventListeners();
+  }
+
+  // ── Filtros ──
+  function setupFilters() {
+    const categories = [...new Set(allExercises.map(e => e.category).filter(Boolean))].sort();
+    const equipments = [...new Set(allExercises.map(e => e.equipment).filter(Boolean))].sort();
+    const targets = [...new Set(allExercises.map(e => e.target).filter(Boolean))].sort();
+
+    renderChips('category-chips', categories, 'category');
+    renderChips('equipment-chips', equipments, 'equipment');
+    renderChips('target-chips', targets, 'target');
+  }
+
+  function renderChips(containerId, items, type) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = items.map(item => `
+      <button class="chip" data-type="${type}" data-value="${item}">
+        ${t(item)}
+      </button>
+    `).join('');
+  }
+
+  // ── Filtrar ──
+  function applyFilters() {
+    const filtered = allExercises.filter(e => {
+      const matchCat = !selectedCategory || e.category === selectedCategory;
+      const matchEquip = !selectedEquipment || e.equipment === selectedEquipment;
+      const matchTarget = !selectedTarget || e.target === selectedTarget;
+      
+      const search = searchTerm.toLowerCase();
+      const matchSearch = !search || 
+        e.name.toLowerCase().includes(search) ||
+        t(e.category).toLowerCase().includes(search) ||
+        t(e.target).toLowerCase().includes(search);
+
+      return matchCat && matchEquip && matchTarget && matchSearch;
+    });
+
+    renderGrid(filtered);
+    updateResultsBar(filtered.length);
+  }
+
+  // ── Tarjetas ──
+  function renderGrid(exercises) {
+    const grid = document.getElementById('exercise-grid');
+    if (!exercises.length) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">No se encontraron ejercicios con los filtros seleccionados.</div>`;
+      return;
+    }
+
+    const displayItems = exercises.slice(0, 100);
+
+    grid.innerHTML = displayItems.map(item => `
+      <div class="exercise-card" onclick="openExerciseModal('${item.id}')">
+        <div class="card-media">
+          <img class="card-thumb" src="${item.image}" alt="${item.name}" loading="lazy" />
+          <img class="card-gif" src="${item.gif_url}" alt="${item.name}" loading="lazy" />
+        </div>
+        <div class="card-body">
+          <div class="card-name">${item.name}</div>
+          <div class="card-tags">
+            <span class="tag tag-cat">${t(item.category)}</span>
+            <span class="tag tag-equip">${t(item.equipment)}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function updateResultsBar(count) {
+    document.getElementById('results-count').textContent = `${count} ejercicios disponibles`;
+
+    const activeContainer = document.getElementById('active-filters');
+    const clearBtn = document.getElementById('clear-all');
+    let badges = [];
+
+    if (selectedCategory) badges.push({ type: 'category', label: t(selectedCategory) });
+    if (selectedEquipment) badges.push({ type: 'equipment', label: t(selectedEquipment) });
+    if (selectedTarget) badges.push({ type: 'target', label: t(selectedTarget) });
+
+    activeContainer.innerHTML = badges.map(b => `
+      <div class="active-badge">
+        <span>${b.label}</span>
+        <span class="active-badge-remove" onclick="removeFilter('${b.type}')">✕</span>
+      </div>
+    `).join('');
+
+    clearBtn.style.display = badges.length ? 'inline' : 'none';
+  }
+
+  function removeFilter(type) {
+    if (type === 'category') selectedCategory = null;
+    if (type === 'equipment') selectedEquipment = null;
+    if (type === 'target') selectedTarget = null;
+    updateChipStates();
+    applyFilters();
+  }
+
+  function updateChipStates() {
+    document.querySelectorAll('.chip').forEach(chip => {
+      const type = chip.dataset.type;
+      const val = chip.dataset.value;
+      const isActive = (type === 'category' && val === selectedCategory) ||
+                       (type === 'equipment' && val === selectedEquipment) ||
+                       (type === 'target' && val === selectedTarget);
+      chip.classList.toggle('active', isActive);
+    });
+  }
+
+  // ── Modal ──
+  function openExerciseModal(id) {
+    const exercise = allExercises.find(e => e.id === id);
+    if (!exercise) return;
+
+    document.getElementById('modal-title').textContent = exercise.name;
+    document.getElementById('modal-gif').src = exercise.gif_url;
+
+    document.getElementById('modal-meta').innerHTML = `
+      <div class="meta-chip">
+        <span class="meta-chip-label">Región</span>
+        <span class="meta-chip-value">${t(exercise.category)}</span>
+      </div>
+      <div class="meta-chip">
+        <span class="meta-chip-label">Músculo Objetivo</span>
+        <span class="meta-chip-value">${t(exercise.target)}</span>
+      </div>
+      <div class="meta-chip">
+        <span class="meta-chip-label">Equipamiento</span>
+        <span class="meta-chip-value">${t(exercise.equipment)}</span>
+      </div>
+    `;
+
+    // Instrucciones siempre en español
+    const steps = exercise.instruction_steps?.es || 
+                  (exercise.instructions?.es ? [exercise.instructions.es] : null) ||
+                  exercise.instruction_steps?.en || [];
+
+    const container = document.getElementById('instructions-container');
+    container.innerHTML = steps.map(step => `
+      <div class="instruction-step">
+        <div class="step-num"></div>
+        <div class="step-text">${step}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.getElementById('modal-gif').src = '';
+  }
+
+  // ── Event Listeners ──
+  function setupEventListeners() {
+    document.querySelectorAll('.filter-options').forEach(group => {
+      group.addEventListener('click', e => {
+        const chip = e.target.closest('.chip');
+        if (!chip) return;
+        const type = chip.dataset.type;
+        const val = chip.dataset.value;
+
+        if (type === 'category') selectedCategory = (selectedCategory === val) ? null : val;
+        if (type === 'equipment') selectedEquipment = (selectedEquipment === val) ? null : val;
+        if (type === 'target') selectedTarget = (selectedTarget === val) ? null : val;
+
+        updateChipStates();
+        applyFilters();
+      });
+    });
+
+    const searchInput = document.getElementById('search');
+    const clearBtn = document.getElementById('search-clear');
+
+    searchInput.addEventListener('input', e => {
+      searchTerm = e.target.value.trim();
+      clearBtn.classList.toggle('visible', !!searchTerm);
+      applyFilters();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchTerm = '';
+      clearBtn.classList.remove('visible');
+      applyFilters();
+    });
+
+    document.getElementById('clear-all').addEventListener('click', () => {
+      selectedCategory = null;
+      selectedEquipment = null;
+      selectedTarget = null;
+      updateChipStates();
+      applyFilters();
+    });
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target.id === 'modal-overlay') closeModal();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
